@@ -58,6 +58,15 @@ export interface MockGalleryImage {
   category: string;
   isActive: boolean;
   createdAt: string;
+  priority?: string;
+  endDate?: string;
+  targetAudience?: string[];
+  attachments?: Array<{
+    filename: string;
+    originalName: string;
+    mimetype: string;
+    size: number;
+  }>;
   uploadedBy: {
     username: string;
   };
@@ -504,6 +513,43 @@ export const mockApi = {
     
     mockGalleryImages.splice(index, 1);
     return { success: true, message: 'Image deleted successfully' };
+  },
+
+  // Add Notice API
+  async addNotice(noticeData: any) {
+    await simulateApiDelay(1500);
+    
+    const newNotice = {
+      _id: (mockNotices.length + 1).toString(),
+      title: noticeData.title,
+      content: noticeData.content,
+      category: noticeData.category,
+      date: noticeData.date.toISOString(),
+      createdAt: new Date().toISOString(),
+      isActive: true,
+      priority: noticeData.priority || 'medium',
+      endDate: noticeData.endDate ? noticeData.endDate.toISOString() : undefined,
+      location: noticeData.location,
+      organizer: noticeData.organizer,
+      contactInfo: noticeData.contactInfo,
+      targetAudience: noticeData.targetAudience || [],
+      attachments: noticeData.attachments || [],
+      rules: noticeData.rules,
+      prizeStructure: noticeData.prizeStructure,
+      registrationDeadline: noticeData.registrationDeadline ? noticeData.registrationDeadline.toISOString() : undefined,
+      maxParticipants: noticeData.maxParticipants,
+      currentParticipants: noticeData.category === 'tournament' ? 0 : undefined,
+      createdBy: { username: 'admin' }
+    };
+    
+    // Add to beginning of array to show as latest
+    mockNotices.unshift(newNotice);
+    
+    return {
+      success: true,
+      message: 'Notice created successfully',
+      data: { notice: newNotice }
+    };
   },
 
   // Dashboard API

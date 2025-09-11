@@ -774,8 +774,8 @@ export const mockApi = {
   },
 
   // Tournaments API
-
-  async getUpcomingTournaments(params?: { 
+   
+async getUpcomingTournaments(params?: { 
     page?: number; 
     limit?: number; 
     status?: Tournament['status']; 
@@ -825,12 +825,96 @@ export const mockApi = {
   },
 
   async getTournament(id: string): Promise<ApiResponse<Tournament>> {
+    await simulateApiDelay(500);
+    const tournament = mockTournaments.find(t => t.id === id);
+    
+    if (!tournament) {
+      return { success: false, message: 'Tournament not found' };
+    }
+    
+    return { success: true, data: tournament };
   },
 
   async getTournamentParticipants(tournamentId: string, params?: {
+    page?: number;
+    limit?: number;
+    status?: Participant['status'];
+    search?: string;
+    belt_level?: string;
+    age_category?: string;
+  }): Promise<ApiResponse<PaginatedResponse<Participant>>> {
+    await simulateApiDelay(700);
+    
+    let filteredParticipants = mockParticipants.filter(p => p.tournament_id === tournamentId);
+    
+    // Apply status filter
+    if (params?.status) {
+      filteredParticipants = filteredParticipants.filter(p => p.status === params.status);
+    }
+    
+    // Apply search filter
+    if (params?.search) {
+      const searchTerm = params.search.toLowerCase();
+      filteredParticipants = filteredParticipants.filter(p =>
+        p.name.toLowerCase().includes(searchTerm) ||
+        p.email.toLowerCase().includes(searchTerm) ||
+        p.skb_id?.toLowerCase().includes(searchTerm)
+      );
+    }
+    
+    // Apply belt level filter
+    if (params?.belt_level) {
+      filteredParticipants = filteredParticipants.filter(p => p.belt_level === params.belt_level);
+    }
+    
+    // Apply age category filter
+    if (params?.age_category) {
+      filteredParticipants = filteredParticipants.filter(p => p.age_category === params.age_category);
+    }
+    
+    // Sort by registration date (newest first)
+    filteredParticipants.sort((a, b) => new Date(b.registration_date).getTime() - new Date(a.registration_date).getTime());
+    
+    const page = params?.page || 1;
+    const limit = params?.limit || 20;
+    const startIndex = (page - 1) * limit;
+    const endIndex = startIndex + limit;
+    
+    const paginatedParticipants = filteredParticipants.slice(startIndex, endIndex);
+    
+    return {
+      success: true,
+      data: {
+        items: paginatedParticipants,
+        pagination: {
+          current: page,
+          pages: Math.ceil(filteredParticipants.length / limit),
+          total: filteredParticipants.length,
+          limit
+        }
+      }
+    };
   },
 
   async deleteParticipant(participantId: string): Promise<ApiResponse<void>> {
+    await simulateApiDelay(600);
+    
+    const index = mockParticipants.findIndex(p => p.id === participantId);
+    
+    if (index === -1) {
+      return { success: false, message: 'Participant not found' };
+    }
+    
+    const participant = mockParticipants[index];
+    mockParticipants.splice(index, 1);
+    
+    // Update tournament participant count
+    const tournament = mockTournaments.find(t => t.id === participant.tournament_id);
+    if (tournament) {
+      tournament.participant_count = Math.max(0, tournament.participant_count - 1);
+    }
+    
+    return { success: true, message: 'Participant removed successfully' };
   },
 
   // Authentication API

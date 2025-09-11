@@ -774,7 +774,54 @@ export const mockApi = {
   },
 
   // Tournaments API
+
   async getUpcomingTournaments(params?: { 
+    page?: number; 
+    limit?: number; 
+    status?: Tournament['status']; 
+    search?: string 
+  }): Promise<ApiResponse<PaginatedResponse<Tournament>>> {
+    await simulateApiDelay(800);
+    
+    let filteredTournaments = [...mockTournaments];
+    
+    // Apply status filter
+    if (params?.status) {
+      filteredTournaments = filteredTournaments.filter(tournament => tournament.status === params.status);
+    }
+    
+    // Apply search filter
+    if (params?.search) {
+      const searchTerm = params.search.toLowerCase();
+      filteredTournaments = filteredTournaments.filter(tournament =>
+        tournament.name.toLowerCase().includes(searchTerm) ||
+        tournament.description?.toLowerCase().includes(searchTerm) ||
+        tournament.location?.toLowerCase().includes(searchTerm)
+      );
+    }
+    
+    // Sort by date (upcoming first)
+    filteredTournaments.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+    
+    const page = params?.page || 1;
+    const limit = params?.limit || 10;
+    const startIndex = (page - 1) * limit;
+    const endIndex = startIndex + limit;
+    
+    const paginatedTournaments = filteredTournaments.slice(startIndex, endIndex);
+    
+    return {
+      success: true,
+      data: {
+        items: paginatedTournaments,
+        pagination: {
+          current: page,
+          pages: Math.ceil(filteredTournaments.length / limit),
+          total: filteredTournaments.length,
+          limit
+        }
+      }
+    };
   },
 
   async getTournament(id: string): Promise<ApiResponse<Tournament>> {

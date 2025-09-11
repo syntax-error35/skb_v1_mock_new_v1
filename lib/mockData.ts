@@ -2,8 +2,6 @@
 // This file contains all mock data and functions to simulate API responses
 // TODO: Remove this file when reconnecting to actual backend
 
-import { Tournament, Participant, ApiResponse, PaginatedResponse } from "@/types/tournament";
-
 export interface MockMember {
   _id: string;
   name: string;
@@ -193,6 +191,7 @@ const mockMembers: MockMember[] = [
     nationality: 'Bangladeshi'
   }
 ];
+
 // Mock Notices Data
 const mockNotices: MockNotice[] = [
   {
@@ -288,6 +287,7 @@ const mockNotices: MockNotice[] = [
     createdBy: { username: 'admin' }
   }
 ];
+
 // Mock Gallery Images Data
 const mockGalleryImages: MockGalleryImage[] = [
   {
@@ -355,211 +355,6 @@ const mockGalleryImages: MockGalleryImage[] = [
     isActive: true,
     createdAt: '2023-07-01T00:00:00.000Z',
     uploadedBy: { username: 'admin' }
-  }
-];
-const mockTournaments: Tournament[] = [
-  {
-    id: 'tournament-1',
-    name: 'National Shotokan Championship 2024',
-    date: '2024-03-15T09:00:00.000Z',
-    status: 'upcoming',
-    participant_count: 87,
-    description: 'The premier national championship featuring kata and kumite competitions across all age groups and skill levels.',
-    location: 'National Sports Complex, Dhaka',
-    organizer: 'Bangladesh Karate Federation',
-    registration_deadline: '2024-02-28T23:59:59.000Z',
-    max_participants: 200,
-    prize_structure: '1st Place: Gold Medal + 50,000 BDT\n2nd Place: Silver Medal + 30,000 BDT\n3rd Place: Bronze Medal + 20,000 BDT',
-    rules: 'Tournament follows WKF rules. All participants must be registered SKB members. Protective gear mandatory for kumite.',
-    created_at: '2024-01-15T00:00:00.000Z',
-    updated_at: '2024-01-20T00:00:00.000Z'
-  },
-  {
-    id: 'tournament-2',
-    name: 'Inter-Dojo Friendship Tournament',
-    date: '2024-04-05T10:00:00.000Z',
-    status: 'upcoming',
-    participant_count: 45,
-    description: 'A friendly competition promoting unity and sportsmanship among regional dojos.',
-    location: 'SKB Main Dojo, Gulshan',
-    organizer: 'Shotokan Karate Bangladesh',
-    registration_deadline: '2024-03-25T18:00:00.000Z',
-    max_participants: 150,
-    prize_structure: 'Trophies for top 3 in each category\nParticipation medals for all\nSportsmanship awards',
-    rules: 'Friendly format emphasizing technique and sportsmanship. All belt levels welcome.',
-    created_at: '2024-01-08T00:00:00.000Z',
-    updated_at: '2024-01-12T00:00:00.000Z'
-  },
-  {
-    id: 'tournament-3',
-    name: 'Youth Development Cup',
-    date: '2024-05-20T14:00:00.000Z',
-    status: 'upcoming',
-    participant_count: 32,
-    description: 'Special tournament focused on developing young talent in karate.',
-    location: 'Youth Sports Center, Chittagong',
-    organizer: 'SKB Youth Division',
-    registration_deadline: '2024-05-10T17:00:00.000Z',
-    max_participants: 80,
-    prize_structure: 'Medals and certificates for all participants\nSpecial recognition for outstanding technique',
-    rules: 'Open to participants under 18 years. Focus on kata and light-contact kumite.',
-    created_at: '2024-02-01T00:00:00.000Z',
-    updated_at: '2024-02-05T00:00:00.000Z'
-  },
-  {
-    id: 'tournament-4',
-    name: 'Masters Championship',
-    date: '2024-02-10T09:00:00.000Z',
-    status: 'completed',
-    participant_count: 28,
-    description: 'Elite competition for black belt holders and advanced practitioners.',
-    location: 'Elite Sports Complex, Dhaka',
-    organizer: 'SKB Masters Division',
-    max_participants: 50,
-    created_at: '2023-12-15T00:00:00.000Z',
-    updated_at: '2024-02-11T00:00:00.000Z'
-  }
-];
-
-// Mock Participants Data
-const mockParticipants: Participant[] = [
-  // Participants for National Championship (tournament-1)
-  {
-    id: 'participant-1',
-    name: 'Md. Kamal Hossain',
-    email: 'kamal@example.com',
-    registration_date: '2024-01-20T10:30:00.000Z',
-    tournament_id: 'tournament-1',
-    status: 'confirmed',
-    skb_id: 'SKB0001',
-    phone: '+880171234567',
-    belt_level: 'Black Belt (3rd Dan)',
-    age_category: 'Senior (18+)',
-    weight_category: 'Heavyweight',
-    created_at: '2024-01-20T10:30:00.000Z',
-    updated_at: '2024-01-22T00:00:00.000Z'
-  },
-  {
-    id: 'participant-2',
-    name: 'Fatima Rahman',
-    email: 'fatima@example.com',
-    registration_date: '2024-01-22T14:15:00.000Z',
-    tournament_id: 'tournament-1',
-    status: 'confirmed',
-    skb_id: 'SKB0002',
-    phone: '+880179876543',
-    belt_level: 'Black Belt (1st Dan)',
-    age_category: 'Senior (18+)',
-    weight_category: 'Middleweight',
-    created_at: '2024-01-22T14:15:00.000Z',
-    updated_at: '2024-01-23T00:00:00.000Z'
-  },
-  {
-    id: 'participant-3',
-    name: 'Ahmed Hassan',
-    email: 'ahmed@example.com',
-    registration_date: '2024-01-25T09:45:00.000Z',
-    tournament_id: 'tournament-1',
-    status: 'registered',
-    skb_id: 'SKB0003',
-    phone: '+880155678901',
-    belt_level: 'Brown',
-    age_category: 'Junior (16-17)',
-    weight_category: 'Lightweight',
-    created_at: '2024-01-25T09:45:00.000Z',
-    updated_at: '2024-01-25T09:45:00.000Z'
-  },
-  {
-    id: 'participant-4',
-    name: 'Rashida Akter',
-    email: 'rashida@example.com',
-    registration_date: '2024-01-28T16:20:00.000Z',
-    tournament_id: 'tournament-1',
-    status: 'registered',
-    skb_id: 'SKB0004',
-    phone: '+880163456789',
-    belt_level: 'Blue',
-    age_category: 'Youth (14-15)',
-    weight_category: 'Featherweight',
-    created_at: '2024-01-28T16:20:00.000Z',
-    updated_at: '2024-01-28T16:20:00.000Z'
-  },
-  {
-    id: 'participant-5',
-    name: 'Mohammad Ali',
-    email: 'ali@example.com',
-    registration_date: '2024-02-01T11:10:00.000Z',
-    tournament_id: 'tournament-1',
-    status: 'cancelled',
-    skb_id: 'SKB0005',
-    phone: '+880171298765',
-    belt_level: 'Green',
-    age_category: 'Cadet (12-13)',
-    weight_category: 'Bantamweight',
-    created_at: '2024-02-01T11:10:00.000Z',
-    updated_at: '2024-02-03T00:00:00.000Z'
-  },
-  // Participants for Inter-Dojo Tournament (tournament-2)
-  {
-    id: 'participant-6',
-    name: 'Nasir Ahmed',
-    email: 'nasir@example.com',
-    registration_date: '2024-01-15T13:30:00.000Z',
-    tournament_id: 'tournament-2',
-    status: 'confirmed',
-    skb_id: 'SKB0006',
-    phone: '+880181234567',
-    belt_level: 'Black Belt (2nd Dan)',
-    age_category: 'Senior (18+)',
-    weight_category: 'Middleweight',
-    created_at: '2024-01-15T13:30:00.000Z',
-    updated_at: '2024-01-16T00:00:00.000Z'
-  },
-  {
-    id: 'participant-7',
-    name: 'Salma Begum',
-    email: 'salma@example.com',
-    registration_date: '2024-01-18T10:45:00.000Z',
-    tournament_id: 'tournament-2',
-    status: 'registered',
-    skb_id: 'SKB0007',
-    phone: '+880191234567',
-    belt_level: 'Brown',
-    age_category: 'Senior (18+)',
-    weight_category: 'Lightweight',
-    created_at: '2024-01-18T10:45:00.000Z',
-    updated_at: '2024-01-18T10:45:00.000Z'
-  },
-  // Participants for Youth Cup (tournament-3)
-  {
-    id: 'participant-8',
-    name: 'Rafi Islam',
-    email: 'rafi@example.com',
-    registration_date: '2024-02-05T15:20:00.000Z',
-    tournament_id: 'tournament-3',
-    status: 'confirmed',
-    skb_id: 'SKB0008',
-    phone: '+880151234567',
-    belt_level: 'Blue',
-    age_category: 'Youth (14-15)',
-    weight_category: 'Featherweight',
-    created_at: '2024-02-05T15:20:00.000Z',
-    updated_at: '2024-02-06T00:00:00.000Z'
-  },
-  {
-    id: 'participant-9',
-    name: 'Nadia Khan',
-    email: 'nadia@example.com',
-    registration_date: '2024-02-08T12:15:00.000Z',
-    tournament_id: 'tournament-3',
-    status: 'registered',
-    skb_id: 'SKB0009',
-    phone: '+880161234567',
-    belt_level: 'Green',
-    age_category: 'Cadet (12-13)',
-    weight_category: 'Bantamweight',
-    created_at: '2024-02-08T12:15:00.000Z',
-    updated_at: '2024-02-08T12:15:00.000Z'
   }
 ];
 
@@ -773,150 +568,6 @@ export const mockApi = {
     return { success: true, data: stats };
   },
 
-  // Tournaments API
-   
-async getUpcomingTournaments(params?: { 
-    page?: number; 
-    limit?: number; 
-    status?: Tournament['status']; 
-    search?: string 
-  }): Promise<ApiResponse<PaginatedResponse<Tournament>>> {
-    await simulateApiDelay(800);
-    
-    let filteredTournaments = [...mockTournaments];
-    
-    // Apply status filter
-    if (params?.status) {
-      filteredTournaments = filteredTournaments.filter(tournament => tournament.status === params.status);
-    }
-    
-    // Apply search filter
-    if (params?.search) {
-      const searchTerm = params.search.toLowerCase();
-      filteredTournaments = filteredTournaments.filter(tournament =>
-        tournament.name.toLowerCase().includes(searchTerm) ||
-        tournament.description?.toLowerCase().includes(searchTerm) ||
-        tournament.location?.toLowerCase().includes(searchTerm)
-      );
-    }
-    
-    // Sort by date (upcoming first)
-    filteredTournaments.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
-    
-    const page = params?.page || 1;
-    const limit = params?.limit || 10;
-    const startIndex = (page - 1) * limit;
-    const endIndex = startIndex + limit;
-    
-    const paginatedTournaments = filteredTournaments.slice(startIndex, endIndex);
-    
-    return {
-      success: true,
-      data: {
-        items: paginatedTournaments,
-        pagination: {
-          current: page,
-          pages: Math.ceil(filteredTournaments.length / limit),
-          total: filteredTournaments.length,
-          limit
-        }
-      }
-    };
-  },
-
-  async getTournament(id: string): Promise<ApiResponse<Tournament>> {
-    await simulateApiDelay(500);
-    const tournament = mockTournaments.find(t => t.id === id);
-    
-    if (!tournament) {
-      return { success: false, message: 'Tournament not found' };
-    }
-    
-    return { success: true, data: tournament };
-  },
-
-  async getTournamentParticipants(tournamentId: string, params?: {
-    page?: number;
-    limit?: number;
-    status?: Participant['status'];
-    search?: string;
-    belt_level?: string;
-    age_category?: string;
-  }): Promise<ApiResponse<PaginatedResponse<Participant>>> {
-    await simulateApiDelay(700);
-    
-    let filteredParticipants = mockParticipants.filter(p => p.tournament_id === tournamentId);
-    
-    // Apply status filter
-    if (params?.status) {
-      filteredParticipants = filteredParticipants.filter(p => p.status === params.status);
-    }
-    
-    // Apply search filter
-    if (params?.search) {
-      const searchTerm = params.search.toLowerCase();
-      filteredParticipants = filteredParticipants.filter(p =>
-        p.name.toLowerCase().includes(searchTerm) ||
-        p.email.toLowerCase().includes(searchTerm) ||
-        p.skb_id?.toLowerCase().includes(searchTerm)
-      );
-    }
-    
-    // Apply belt level filter
-    if (params?.belt_level) {
-      filteredParticipants = filteredParticipants.filter(p => p.belt_level === params.belt_level);
-    }
-    
-    // Apply age category filter
-    if (params?.age_category) {
-      filteredParticipants = filteredParticipants.filter(p => p.age_category === params.age_category);
-    }
-    
-    // Sort by registration date (newest first)
-    filteredParticipants.sort((a, b) => new Date(b.registration_date).getTime() - new Date(a.registration_date).getTime());
-    
-    const page = params?.page || 1;
-    const limit = params?.limit || 20;
-    const startIndex = (page - 1) * limit;
-    const endIndex = startIndex + limit;
-    
-    const paginatedParticipants = filteredParticipants.slice(startIndex, endIndex);
-    
-    return {
-      success: true,
-      data: {
-        items: paginatedParticipants,
-        pagination: {
-          current: page,
-          pages: Math.ceil(filteredParticipants.length / limit),
-          total: filteredParticipants.length,
-          limit
-        }
-      }
-    };
-  },
-
-  async deleteParticipant(participantId: string): Promise<ApiResponse<void>> {
-    await simulateApiDelay(600);
-    
-    const index = mockParticipants.findIndex(p => p.id === participantId);
-    
-    if (index === -1) {
-      return { success: false, message: 'Participant not found' };
-    }
-    
-    const participant = mockParticipants[index];
-    mockParticipants.splice(index, 1);
-    
-    // Update tournament participant count
-    const tournament = mockTournaments.find(t => t.id === participant.tournament_id);
-    if (tournament) {
-      tournament.participant_count = Math.max(0, tournament.participant_count - 1);
-    }
-    
-    return { success: true, message: 'Participant removed successfully' };
-  },
-
   // Authentication API
   async login(credentials: { username: string; password: string }) {
     await simulateApiDelay(1200);
@@ -952,4 +603,4 @@ async getUpcomingTournaments(params?: {
 };
 
 // Export individual data arrays for direct access
-export { mockMembers, mockNotices, mockGalleryImages,mockTournaments, mockParticipants };
+export { mockMembers, mockNotices, mockGalleryImages };

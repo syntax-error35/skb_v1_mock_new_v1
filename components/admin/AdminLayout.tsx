@@ -11,7 +11,6 @@ import {
   Users, 
   Bell, 
   Image, 
-  Trophy,
   Menu, 
   LogOut,
   Shield,
@@ -29,9 +28,6 @@ const navigation = [
   { name: 'Members', href: '/admin/members', icon: Users },
   { name: 'Notices', href: '/admin/notices', icon: Bell },
   { name: 'Gallery', href: '/admin/gallery', icon: Image },
-    { name: 'Tournaments', href: '/admin/tournaments', icon: Trophy },
-
-
 ];
 
 export default function AdminLayout({ children }: AdminLayoutProps) {

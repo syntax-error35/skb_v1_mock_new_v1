@@ -12,6 +12,7 @@ import {
   Bell, 
   Image, 
   Trophy,
+  FileText,
   Menu, 
   LogOut,
   Shield,

@@ -83,6 +83,19 @@ export interface MockDashboardStats {
   recentRegistrations: number;
 }
 
+export interface MockAboutPageContent {
+  _id: string;
+  title: string;
+  description: string;
+  bannerImageUrl: string | null;
+  lastUpdatedBy: {
+    username: string;
+  } | null;
+  lastUpdatedAt: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
 // Mock Members Data
 const mockMembers: MockMember[] = [
   {
@@ -357,6 +370,30 @@ const mockGalleryImages: MockGalleryImage[] = [
     uploadedBy: { username: 'admin' }
   }
 ];
+
+// Mock About Page Content
+let mockAboutPageContent: MockAboutPageContent = {
+  _id: 'about-page-1',
+  title: 'About Shotokan Karate Bangladesh',
+  description: `Welcome to Shotokan Karate Bangladesh, where tradition meets excellence in martial arts training.
+
+Our organization has been dedicated to preserving and teaching the authentic art of Shotokan Karate for over two decades. Founded with the vision of promoting physical fitness, mental discipline, and spiritual growth, we have become one of the leading karate organizations in Bangladesh.
+
+At Shotokan Karate Bangladesh, we believe that karate is more than just a martial art – it's a way of life that builds character, instills respect, and develops both physical and mental strength. Our experienced instructors, certified by the Japan Karate Association (JKA), provide comprehensive training that follows traditional Shotokan principles while adapting to modern teaching methods.
+
+We offer programs for all ages and skill levels, from beginners taking their first steps into the world of karate to advanced practitioners preparing for international competitions. Our training facilities are equipped with modern amenities while maintaining the traditional dojo atmosphere that fosters discipline and respect.
+
+Join us on this incredible journey of self-discovery, physical fitness, and martial arts excellence. Whether you're looking to learn self-defense, improve your fitness, or compete at the highest levels, Shotokan Karate Bangladesh is here to guide you every step of the way.`,
+  bannerImageUrl: 'https://images.pexels.com/photos/7045693/pexels-photo-7045693.jpeg',
+  lastUpdatedBy: {
+    username: 'admin'
+  },
+  lastUpdatedAt: '2024-01-15T10:30:00.000Z',
+  createdAt: '2023-01-01T00:00:00.000Z',
+  updatedAt: '2024-01-15T10:30:00.000Z'
+};
+
+// Mock Tournaments Data
 const mockTournaments: Tournament[] = [
   {
     id: 'tournament-1',
@@ -771,6 +808,56 @@ export const mockApi = {
     };
     
     return { success: true, data: stats };
+  },
+
+  // About Page API
+  async getAboutPageContent(): Promise<{ success: boolean; data: MockAboutPageContent }> {
+    await simulateApiDelay(600);
+    
+    return {
+      success: true,
+      data: mockAboutPageContent
+    };
+  },
+
+  async updateAboutPageContent(updateData: { title: string; description: string }): Promise<{ success: boolean; message: string; data: MockAboutPageContent }> {
+    await simulateApiDelay(1200);
+    
+    // Update the mock data
+    mockAboutPageContent = {
+      ...mockAboutPageContent,
+      title: updateData.title,
+      description: updateData.description,
+      lastUpdatedAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString()
+    };
+    
+    return {
+      success: true,
+      message: 'About page updated successfully',
+      data: mockAboutPageContent
+    };
+  },
+
+  async uploadAboutBanner(file: File): Promise<{ success: boolean; message: string; bannerImageUrl: string }> {
+    await simulateApiDelay(2000);
+    
+    // Simulate file upload by creating a mock URL
+    const mockImageUrl = `https://images.pexels.com/photos/${Math.floor(Math.random() * 1000000)}/pexels-photo-${Math.floor(Math.random() * 1000000)}.jpeg`;
+    
+    // Update the mock data with new banner image
+    mockAboutPageContent = {
+      ...mockAboutPageContent,
+      bannerImageUrl: mockImageUrl,
+      lastUpdatedAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString()
+    };
+    
+    return {
+      success: true,
+      message: 'Banner image uploaded successfully',
+      bannerImageUrl: mockImageUrl
+    };
   },
 
   // Tournaments API

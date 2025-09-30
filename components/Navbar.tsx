@@ -20,6 +20,9 @@ export default function Navbar() {
           <Link href="/" className="hover:text-primary">
             Home
           </Link>
+          <Link href="/about" className="hover:text-primary">
+            About
+          </Link>
           <Link href="/notices" className="hover:text-primary">
             Notices
           </Link>
@@ -45,6 +48,9 @@ export default function Navbar() {
             <div className="flex flex-col gap-4 mt-8">
               <Link href="/" onClick={() => setOpen(false)}>
                 Home
+              </Link>
+              <Link href="/about" onClick={() => setOpen(false)}>
+                About
               </Link>
               <Link href="/notices" onClick={() => setOpen(false)}>
                 Notices

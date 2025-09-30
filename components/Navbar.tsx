@@ -32,6 +32,9 @@ export default function Navbar() {
           <Link href="/members" className="hover:text-primary">
             Members
           </Link>
+          <Button asChild variant="outline">
+            <Link href="/admin/login">Login</Link>
+          </Button>
           <Button asChild>
             <Link href="/register">Register</Link>
           </Button>
@@ -61,6 +64,9 @@ export default function Navbar() {
               <Link href="/members" onClick={() => setOpen(false)}>
                 Members
               </Link>
+              <Button asChild variant="outline" onClick={() => setOpen(false)}>
+                <Link href="/admin/login">Login</Link>
+              </Button>
               <Button asChild onClick={() => setOpen(false)}>
                 <Link href="/register">Register</Link>
               </Button>

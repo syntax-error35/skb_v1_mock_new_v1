@@ -12,7 +12,7 @@ import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { Search, Plus, Edit, Trash2, Upload, Image as ImageIcon, X, Loader2 } from "lucide-react";
+import { Search, Plus, CreditCard as Edit, Trash2, Upload, Image as ImageIcon, X, Loader as Loader2 } from "lucide-react";
 import AdminLayout from "@/components/admin/AdminLayout";
 // COMMENTED OUT - ORIGINAL BACKEND IMPORT
 // import { makeAuthenticatedRequest } from "@/lib/auth";
@@ -288,10 +288,198 @@ export default function AdminGalleryPage() {
               Manage gallery images and media
             </p>
           </div>
-          <Button>
-            <Upload className="h-4 w-4 mr-2" />
-            Upload Image
-          </Button>
+          <Dialog open={isUploadModalOpen} onOpenChange={setIsUploadModalOpen}>
+            <DialogTrigger asChild>
+              <Button>
+                <Upload className="h-4 w-4 mr-2" />
+                Upload Image
+              </Button>
+            </DialogTrigger>
+            <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+              <DialogHeader>
+                <DialogTitle>Upload New Image</DialogTitle>
+                <DialogDescription>
+                  Add a new image to the gallery with details and categorization.
+                </DialogDescription>
+              </DialogHeader>
+              
+              <Form {...form}>
+                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+                  {/* File Upload Section */}
+                  <div className="space-y-4">
+                    <FormLabel className="text-base font-semibold">Image File *</FormLabel>
+                    
+                    {previewUrl ? (
+                      <div className="space-y-4">
+                        <div className="relative aspect-video rounded-lg overflow-hidden border-2 border-gray-200">
+                          <Image
+                            src={previewUrl}
+                            alt="Preview"
+                            fill
+                            className="object-cover"
+                          />
+                          <Button
+                            type="button"
+                            variant="destructive"
+                            size="icon"
+                            className="absolute top-2 right-2 h-8 w-8"
+                            onClick={handleRemoveFile}
+                          >
+                            <X className="h-4 w-4" />
+                          </Button>
+                        </div>
+                        <div className="text-sm text-gray-600">
+                          <p><strong>File:</strong> {selectedFile?.name}</p>
+                          <p><strong>Size:</strong> {selectedFile ? (selectedFile.size / 1024 / 1024).toFixed(2) : 0} MB</p>
+                        </div>
+                      </div>
+                    ) : (
+                      <div className="border-2 border-dashed border-gray-300 rounded-lg p-6">
+                        <div className="text-center">
+                          <Upload className="mx-auto h-12 w-12 text-gray-400" />
+                          <div className="mt-4">
+                            <label htmlFor="image-upload" className="cursor-pointer">
+                              <span className="mt-2 block text-sm font-medium text-gray-900">
+                                Choose image file
+                              </span>
+                              <span className="mt-1 block text-sm text-gray-500">
+                                JPEG, PNG, WebP up to 5MB
+                              </span>
+                            </label>
+                            <input
+                              id="image-upload"
+                              name="image-upload"
+                              type="file"
+                              accept="image/jpeg,image/jpg,image/png,image/webp"
+                              className="sr-only"
+                              onChange={handleFileChange}
+                              disabled={isSubmitting}
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Form Fields */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <FormField
+                      control={form.control}
+                      name="title"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Title *</FormLabel>
+                          <FormControl>
+                            <Input 
+                              placeholder="Enter image title"
+                              {...field}
+                              disabled={isSubmitting}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="category"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Category *</FormLabel>
+                          <Select onValueChange={field.onChange} defaultValue={field.value} disabled={isSubmitting}>
+                            <FormControl>
+                              <SelectTrigger>
+                                <SelectValue placeholder="Select category" />
+                              </SelectTrigger>
+                            </FormControl>
+                            <SelectContent>
+                              {categories.map((category) => (
+                                <SelectItem key={category} value={category}>
+                                  {category.charAt(0).toUpperCase() + category.slice(1)}
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+
+                  <FormField
+                    control={form.control}
+                    name="altText"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Alt Text *</FormLabel>
+                        <FormControl>
+                          <Input 
+                            placeholder="Describe the image for accessibility"
+                            {...field}
+                            disabled={isSubmitting}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                        <p className="text-xs text-gray-500">
+                          Brief description of the image for screen readers and SEO
+                        </p>
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="description"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Description (Optional)</FormLabel>
+                        <FormControl>
+                          <Textarea 
+                            placeholder="Enter detailed description..."
+                            className="min-h-[100px] resize-none"
+                            {...field}
+                            disabled={isSubmitting}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  {/* Form Actions */}
+                  <div className="flex justify-end space-x-4 pt-6 border-t">
+                    <Button
+                      type="button"
+                      variant="outline"
+                      onClick={() => {
+                        form.reset();
+                        setSelectedFile(null);
+                        setPreviewUrl(null);
+                        setIsUploadModalOpen(false);
+                      }}
+                      disabled={isSubmitting}
+                    >
+                      Cancel
+                    </Button>
+                    <Button type="submit" disabled={isSubmitting || !selectedFile}>
+                      {isSubmitting ? (
+                        <>
+                          <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                          Uploading...
+                        </>
+                      ) : (
+                        <>
+                          <Upload className="h-4 w-4 mr-2" />
+                          Upload Image
+                        </>
+                      )}
+                    </Button>
+                  </div>
+                </form>
+              </Form>
+            </DialogContent>
+          </Dialog>
         </div>
 
         {/* Filters */}
@@ -397,198 +585,10 @@ export default function AdminGalleryPage() {
                     </CardContent>
                   </Card>
                 ))}
-        <Dialog open={isUploadModalOpen} onOpenChange={setIsUploadModalOpen}>
-          <DialogTrigger asChild>
-            <Button>
-              <Upload className="h-4 w-4 mr-2" />
-              Upload Image
-            </Button>
-          </DialogTrigger>
-          <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
-            <DialogHeader>
-              <DialogTitle>Upload New Image</DialogTitle>
-              <DialogDescription>
-                Add a new image to the gallery with details and categorization.
-              </DialogDescription>
-            </DialogHeader>
-            
-            <Form {...form}>
-              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-                {/* File Upload Section */}
-                <div className="space-y-4">
-                  <FormLabel className="text-base font-semibold">Image File *</FormLabel>
-                  
-                  {previewUrl ? (
-                    <div className="space-y-4">
-                      <div className="relative aspect-video rounded-lg overflow-hidden border-2 border-gray-200">
-                        <Image
-                          src={previewUrl}
-                          alt="Preview"
-                          fill
-                          className="object-cover"
-                        />
-                        <Button
-                          type="button"
-                          variant="destructive"
-                          size="icon"
-                          className="absolute top-2 right-2 h-8 w-8"
-                          onClick={handleRemoveFile}
-                        >
-                          <X className="h-4 w-4" />
-                        </Button>
-                      </div>
-                      <div className="text-sm text-gray-600">
-                        <p><strong>File:</strong> {selectedFile?.name}</p>
-                        <p><strong>Size:</strong> {selectedFile ? (selectedFile.size / 1024 / 1024).toFixed(2) : 0} MB</p>
-                      </div>
-                    </div>
-                  ) : (
-                    <div className="border-2 border-dashed border-gray-300 rounded-lg p-6">
-                      <div className="text-center">
-                        <Upload className="mx-auto h-12 w-12 text-gray-400" />
-                        <div className="mt-4">
-                          <label htmlFor="image-upload" className="cursor-pointer">
-                            <span className="mt-2 block text-sm font-medium text-gray-900">
-                              Choose image file
-                            </span>
-                            <span className="mt-1 block text-sm text-gray-500">
-                              JPEG, PNG, WebP up to 5MB
-                            </span>
-                          </label>
-                          <input
-                            id="image-upload"
-                            name="image-upload"
-                            type="file"
-                            accept="image/jpeg,image/jpg,image/png,image/webp"
-                            className="sr-only"
-                            onChange={handleFileChange}
-                            disabled={isSubmitting}
-                          />
-                        </div>
-                      </div>
-                    </div>
-                  )}
-                </div>
-
-                {/* Form Fields */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <FormField
-                    control={form.control}
-                    name="title"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Title *</FormLabel>
-                        <FormControl>
-                          <Input 
-                            placeholder="Enter image title"
-                            {...field}
-                            disabled={isSubmitting}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-
-                  <FormField
-                    control={form.control}
-                    name="category"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Category *</FormLabel>
-                        <Select onValueChange={field.onChange} defaultValue={field.value} disabled={isSubmitting}>
-                          <FormControl>
-                            <SelectTrigger>
-                              <SelectValue placeholder="Select category" />
-                            </SelectTrigger>
-                          </FormControl>
-                          <SelectContent>
-                            {categories.map((category) => (
-                              <SelectItem key={category} value={category}>
-                                {category.charAt(0).toUpperCase() + category.slice(1)}
-                              </SelectItem>
-                            ))}
-                          </SelectContent>
-                        </Select>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
-
-                <FormField
-                  control={form.control}
-                  name="altText"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Alt Text *</FormLabel>
-                      <FormControl>
-                        <Input 
-                          placeholder="Describe the image for accessibility"
-                          {...field}
-                          disabled={isSubmitting}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                      <p className="text-xs text-gray-500">
-                        Brief description of the image for screen readers and SEO
-                      </p>
-                    </FormItem>
-                  )}
-                />
-
-                <FormField
-                  control={form.control}
-                  name="description"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Description (Optional)</FormLabel>
-                      <FormControl>
-                        <Textarea 
-                          placeholder="Enter detailed description..."
-                          className="min-h-[100px] resize-none"
-                          {...field}
-                          disabled={isSubmitting}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                {/* Form Actions */}
-                <div className="flex justify-end space-x-4 pt-6 border-t">
-                  <Button
-                    type="button"
-                    variant="outline"
-                    onClick={() => {
-                      form.reset();
-                      setSelectedFile(null);
-                      setPreviewUrl(null);
-                      setIsUploadModalOpen(false);
-                    }}
-                    disabled={isSubmitting}
-                  >
-                    Cancel
-                  </Button>
-                  <Button type="submit" disabled={isSubmitting || !selectedFile}>
-                    {isSubmitting ? (
-                      <>
-                        <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-                        Uploading...
-                      </>
-                    ) : (
-                      <>
-                        <Upload className="h-4 w-4 mr-2" />
-                        Upload Image
-                      </>
-                    )}
-                  </Button>
-                </div>
-              </form>
-            </Form>
-          </DialogContent>
-        </Dialog>
+              </div>
+            )}
+          </CardContent>
+        </Card>
       </div>
     </AdminLayout>
   );

@@ -1,8 +1,52 @@
 const express = require('express');
+const multer = require('multer');
+const path = require('path');
+const fs = require('fs');
 const GalleryImage = require('../models/GalleryImage');
 const { authenticate, requireAdmin } = require('../middleware/auth');
 
 const router = express.Router();
+
+// COMMENTED OUT - MULTER CONFIGURATION FOR IMAGE UPLOADS
+// TODO: Uncomment when reconnecting to backend
+/*
+// Configure multer for image uploads
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    const uploadDir = path.join(__dirname, '../uploads/gallery');
+    // Create uploads directory if it doesn't exist
+    if (!fs.existsSync(uploadDir)) {
+      fs.mkdirSync(uploadDir, { recursive: true });
+    }
+    cb(null, uploadDir);
+  },
+  filename: function (req, file, cb) {
+    // Generate unique filename with timestamp
+    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+    cb(null, 'gallery-' + uniqueSuffix + path.extname(file.originalname));
+  }
+});
+
+// File filter for images only
+const fileFilter = (req, file, cb) => {
+  const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
+  
+  if (allowedTypes.includes(file.mimetype)) {
+    cb(null, true);
+  } else {
+    cb(new Error('Invalid file type. Only JPEG, PNG, and WebP images are allowed.'), false);
+  }
+};
+
+// Configure multer with options
+const upload = multer({
+  storage: storage,
+  fileFilter: fileFilter,
+  limits: {
+    fileSize: 5 * 1024 * 1024, // 5MB limit
+  }
+});
+*/
 
 // @route   GET /api/gallery
 // @desc    Get all gallery images
@@ -84,17 +128,23 @@ router.get('/:id', async (req, res) => {
 // @route   POST /api/gallery
 // @desc    Create new gallery image
 // @access  Private (Admin only)
-router.post('/', authenticate, requireAdmin, async (req, res) => {
+// COMMENTED OUT - IMAGE UPLOAD ENDPOINT
+// TODO: Uncomment when reconnecting to backend
+/*
+router.post('/', authenticate, requireAdmin, upload.single('image'), async (req, res) => {
   try {
-    const { title, description, imageUrl, altText, category } = req.body;
+    const { title, description, altText, category } = req.body;
 
     // Basic validation
-    if (!title || !imageUrl || !altText) {
+    if (!title || !altText || !req.file) {
       return res.status(400).json({
         success: false,
-        message: 'Title, image URL, and alt text are required'
+        message: 'Title, alt text, and image file are required'
       });
     }
+
+    // Generate image URL from uploaded file
+    const imageUrl = `/uploads/gallery/${req.file.filename}`;
 
     const image = new GalleryImage({
       title,
@@ -115,12 +165,21 @@ router.post('/', authenticate, requireAdmin, async (req, res) => {
     });
   } catch (error) {
     console.error('Create gallery image error:', error);
+    
+    // Clean up uploaded file if gallery image creation fails
+    if (req.file) {
+      fs.unlink(req.file.path, (err) => {
+        if (err) console.error('Error deleting file:', err);
+      });
+    }
+    
     res.status(500).json({
       success: false,
       message: 'Server error while adding image to gallery'
     });
   }
 });
+*/
 
 // @route   PUT /api/gallery/:id
 // @desc    Update gallery image

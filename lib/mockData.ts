@@ -1004,6 +1004,40 @@ async getUpcomingTournaments(params?: {
     return { success: true, message: 'Participant removed successfully' };
   },
 
+  async addGalleryImage(imageData: {
+    title: string;
+    description?: string;
+    altText: string;
+    category: string;
+    imageFile: File;
+  }) {
+    await simulateApiDelay(2000);
+    
+    // Simulate file upload by creating a mock URL
+    const mockImageUrl = `https://images.pexels.com/photos/${Math.floor(Math.random() * 1000000)}/pexels-photo-${Math.floor(Math.random() * 1000000)}.jpeg`;
+    
+    const newImage = {
+      _id: (mockGalleryImages.length + 1).toString(),
+      title: imageData.title,
+      description: imageData.description || '',
+      imageUrl: mockImageUrl,
+      altText: imageData.altText,
+      category: imageData.category,
+      isActive: true,
+      createdAt: new Date().toISOString(),
+      uploadedBy: { username: 'admin' }
+    };
+    
+    // Add to beginning of array to show as latest
+    mockGalleryImages.unshift(newImage);
+    
+    return {
+      success: true,
+      message: 'Image uploaded successfully',
+      data: { image: newImage }
+    };
+  },
+
   // Authentication API
   async login(credentials: { username: string; password: string }) {
     await simulateApiDelay(1200);

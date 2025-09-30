@@ -15,7 +15,6 @@ const likeRoutes = require('./routes/likes');
 const followRoutes = require('./routes/follows');
 const notificationRoutes = require('./routes/notifications');
 const uploadRoutes = require('./routes/upload');
-// const aboutRoutes = require('./routes/about');
 
 // Connect to database
 connectDB();
@@ -59,7 +58,6 @@ app.use('/api/likes', likeRoutes);
 app.use('/api/follows', followRoutes);
 app.use('/api/notifications', notificationRoutes);
 app.use('/api/upload', uploadRoutes);
-// app.use('/api/about', aboutRoutes);
 
 // Health check endpoint
 app.get('/health', (req, res) => {

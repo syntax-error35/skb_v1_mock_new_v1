@@ -1,10 +1,9 @@
-"use client"
 import { useEffect, useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 // MOCK DATA IMPORT - TEMPORARY
 import { mockApi, MockMember } from "@/lib/mockData";
 
-
+"use client";
 
 export default function MembersPage() {
   const [members, setMembers] = useState<MockMember[]>([]);

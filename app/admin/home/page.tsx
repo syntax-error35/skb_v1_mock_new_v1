@@ -11,7 +11,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { Loader2, Save, AlertCircle, Home as HomeIcon, Plus, Trash2, Eye, ImageIcon } from "lucide-react";
+import { Loader as Loader2, Save, CircleAlert as AlertCircle, Chrome as HomeIcon, Plus, Trash2, Eye, Image as ImageIcon } from "lucide-react";
 import AdminLayout from "@/components/admin/AdminLayout";
 import { mockApi, MockHomeSliderContent } from "@/lib/mockData";
 import { toast } from "sonner";

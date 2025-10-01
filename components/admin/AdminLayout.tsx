@@ -27,6 +27,7 @@ interface AdminLayoutProps {
 
 const navigation = [
   { name: 'Dashboard', href: '/admin/dashboard', icon: LayoutDashboard },
+  { name: 'Home', href: '/admin/home', icon: Home },
   { name: 'Members', href: '/admin/members', icon: Users },
   { name: 'Notices', href: '/admin/notices', icon: Bell },
   { name: 'Gallery', href: '/admin/gallery', icon: Image },

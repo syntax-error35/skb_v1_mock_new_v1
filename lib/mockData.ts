@@ -860,6 +860,43 @@ export const mockApi = {
     };
   },
 
+  // Home Slider API
+  async getHomeSliderContent(): Promise<{ success: boolean; data: MockHomeSliderContent }> {
+    await simulateApiDelay(600);
+    
+    return {
+      success: true,
+      data: mockHomeSliderContent
+    };
+  },
+
+  async updateHomeSliderContent(updateData: { 
+    title: string; 
+    subtitle: string; 
+    slides: Array<{ imageUrl: string; altText: string }> 
+  }): Promise<{ success: boolean; message: string; data: MockHomeSliderContent }> {
+    await simulateApiDelay(1200);
+    
+    // Update the mock data
+    mockHomeSliderContent = {
+      ...mockHomeSliderContent,
+      title: updateData.title,
+      subtitle: updateData.subtitle,
+      slides: updateData.slides.map((slide, index) => ({
+        imageUrl: slide.imageUrl,
+        altText: slide.altText,
+        order: index
+      })),
+      updatedAt: new Date().toISOString()
+    };
+    
+    return {
+      success: true,
+      message: 'Home slider updated successfully',
+      data: mockHomeSliderContent
+    };
+  },
+
   // Tournaments API
    
 async getUpcomingTournaments(params?: { 

@@ -16,6 +16,7 @@ const followRoutes = require('./routes/follows');
 const notificationRoutes = require('./routes/notifications');
 const uploadRoutes = require('./routes/upload');
 // const aboutRoutes = require('./routes/about');
+// const homeSliderRoutes = require('./routes/homeSlider');
 
 // Connect to database
 connectDB();
@@ -60,6 +61,7 @@ app.use('/api/follows', followRoutes);
 app.use('/api/notifications', notificationRoutes);
 app.use('/api/upload', uploadRoutes);
 // app.use('/api/about', aboutRoutes);
+// app.use('/api/home-slider', homeSliderRoutes);
 
 // Health check endpoint
 app.get('/health', (req, res) => {

@@ -3,24 +3,47 @@
 import { useState, useEffect } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { Button } from './ui/button';
+import { mockApi, MockHomeSliderContent } from '@/lib/mockData';
 
-const slides = [
-  {
-    url: '/slide1.jpg',
-    title: 'Championship Training',
-  },
-  {
-    url: '/slide2.jpg',
-    title: 'Belt Grading Ceremony',
-  },
-  {
-    url: '/slide3.jpg',
-    title: 'National Tournament',
-  },
-];
 
 export default function ImageSlider() {
+  const [sliderContent, setSliderContent] = useState<MockHomeSliderContent | null>(null);
+  const [loading, setLoading] = useState(true);
   const [currentIndex, setCurrentIndex] = useState(0);
+
+  useEffect(() => {
+    fetchSliderContent();
+  }, []);
+
+  const fetchSliderContent = async () => {
+    try {
+      setLoading(true);
+      // COMMENTED OUT - ORIGINAL BACKEND REQUEST
+      // TODO: Uncomment when reconnecting to backend
+      /*
+      const response = await fetch('/api/home-slider');
+      const data = await response.json();
+      
+      if (data.success) {
+        setSliderContent(data.data);
+      }
+      */
+      
+      // MOCK DATA FETCH - TEMPORARY REPLACEMENT
+      const data = await mockApi.getHomeSliderContent();
+      
+      if (data.success) {
+        setSliderContent(data.data);
+      }
+    } catch (error) {
+      console.error('Error fetching slider content:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Get slides from fetched content or fallback to empty array
+  const slides = sliderContent?.slides.sort((a, b) => a.order - b.order) || [];
 
   const prevSlide = () => {
     const isFirstSlide = currentIndex === 0;
@@ -35,6 +58,8 @@ export default function ImageSlider() {
   };
 
   useEffect(() => {
+    if (slides.length === 0) return;
+    
     const timer = setInterval(() => {
       nextSlide();
     }, 5000);
@@ -42,11 +67,26 @@ export default function ImageSlider() {
     return () => clearInterval(timer);
   }, [currentIndex]);
 
+  // Show loading state
+  if (loading || !sliderContent || slides.length === 0) {
+    return (
+      <div className="relative h-[600px] w-full bg-gradient-to-r from-blue-600 to-purple-700">
+        <div className="absolute inset-0 bg-black/60 z-10" />
+        <div className="relative z-20 container mx-auto h-full flex flex-col justify-center items-center text-white text-center">
+          <h1 className="text-5xl font-bold mb-6">Shotokan Karate Bangladesh</h1>
+          <p className="text-xl mb-8 max-w-2xl">
+            Empowering minds and bodies through the ancient art of Shotokan Karate. Join our community of dedicated practitioners.
+          </p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="relative h-[600px] w-full">
       <div className="absolute inset-0 bg-black/60 z-10" />
       <div
-        style={{ backgroundImage: `url(${slides[currentIndex].url})` }}
+        style={{ backgroundImage: `url(${slides[currentIndex].imageUrl})` }}
         className="absolute inset-0 bg-center bg-cover duration-500"
       />
       
@@ -71,9 +111,9 @@ export default function ImageSlider() {
 
       {/* Content */}
       <div className="relative z-20 container mx-auto h-full flex flex-col justify-center items-center text-white text-center">
-        <h1 className="text-5xl font-bold mb-6">Shotokan Karate Bangladesh</h1>
+        <h1 className="text-5xl font-bold mb-6">{sliderContent.title}</h1>
         <p className="text-xl mb-8 max-w-2xl">
-          Empowering minds and bodies through the ancient art of Shotokan Karate. Join our community of dedicated practitioners.
+          {sliderContent.subtitle}
         </p>
       </div>
 
@@ -86,6 +126,7 @@ export default function ImageSlider() {
             className={`h-2 w-2 rounded-full transition-all ${
               index === currentIndex ? 'bg-white w-4' : 'bg-white/50'
             }`}
+            aria-label={`Go to slide ${index + 1}`}
           />
         ))}
       </div>

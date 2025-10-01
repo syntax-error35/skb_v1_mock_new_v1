@@ -6,19 +6,7 @@ import Link from 'next/link';
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { 
-  LayoutDashboard, 
-  Users, 
-  Bell, 
-  Image, 
-  Trophy,
-  FileText,
-  Menu, 
-  LogOut,
-  Shield,
-  User,
-  Home
-} from "lucide-react";
+import { LayoutDashboard, Users, Bell, Image, Trophy, FileText, Menu, LogOut, Shield, User, Chrome as Home } from "lucide-react";
 import { getAdminUser, removeAdminAuth, isAuthenticated, AdminUser } from "@/lib/auth";
 import { toast } from "sonner";
 

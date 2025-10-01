@@ -157,7 +157,7 @@ export default function TournamentCard({ notice, onViewDetails, onRegister }: To
         </Button>
         <Button
           onClick={onRegister}
-          disabled={isExpired || (notice.maxParticipants && (notice.currentParticipants || 0) >= notice.maxParticipants)}
+          disabled={isExpired || (notice.maxParticipants ? ((notice.currentParticipants || 0) >= notice.maxParticipants) : false)}
           className="flex-1 bg-purple-600 hover:bg-purple-700"
         >
           {isExpired ? 'Registration Closed' : 'Register Now'}

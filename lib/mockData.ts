@@ -96,6 +96,20 @@ export interface MockAboutPageContent {
   updatedAt: string;
 }
 
+export interface MockHomeSliderContent {
+  _id: string;
+  title: string;
+  subtitle: string;
+  slides: Array<{
+    imageUrl: string;
+    altText: string;
+    order: number;
+  }>;
+  isActive: boolean;
+  createdAt: string;
+  updatedAt: string;
+}
+
 // Mock Members Data
 const mockMembers: MockMember[] = [
   {

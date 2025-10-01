@@ -1,44 +1,34 @@
 export interface Tournament {
-  _id: string;
-  title: string;
-  content: string;
-  category: 'tournament';
+  id: string;
+  name: string;
   date: string;
-  endDate?: string;
+  status: 'upcoming' | 'ongoing' | 'completed' | 'cancelled';
+  participant_count: number;
+  description?: string;
   location?: string;
   organizer?: string;
-  contactInfo?: string;
-  priority?: 'low' | 'medium' | 'high';
-  targetAudience?: string[];
+  registration_deadline?: string;
+  max_participants?: number;
+  prize_structure?: string;
   rules?: string;
-  prizeStructure?: string;
-  registrationDeadline?: string;
-  maxParticipants?: number;
-  currentParticipants: number;
-  attachments?: Array<{
-    filename: string;
-    originalName: string;
-    size: number;
-    mimetype: string;
-    path: string;
-  }>;
-  createdAt: string;
-  createdBy: {
-    _id: string;
-    name: string;
-    email: string;
-  };
+  created_at: string;
+  updated_at: string;
 }
 
 export interface Participant {
-  _id: string;
-  tournamentId: string;
+  id: string;
   name: string;
   email: string;
-  phone?: string;
-  registrationDate: string;
+  registration_date: string;
+  tournament_id: string;
   status: 'registered' | 'confirmed' | 'cancelled';
-  additionalInfo?: string;
+  skb_id?: string;
+  phone?: string;
+  belt_level?: string;
+  age_category?: string;
+  weight_category?: string;
+  created_at: string;
+  updated_at: string;
 }
 
 export interface ApiResponse<T = any> {
@@ -49,13 +39,11 @@ export interface ApiResponse<T = any> {
 }
 
 export interface PaginatedResponse<T = any> {
-  success: boolean;
-  data: T[];
+  items: T[];
   pagination: {
-    page: number;
-    limit: number;
+    current: number;
+    pages: number;
     total: number;
-    totalPages: number;
+    limit: number;
   };
-  message?: string;
 }

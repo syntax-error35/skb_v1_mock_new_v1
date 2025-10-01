@@ -6,9 +6,19 @@ import { Sheet, SheetContent, SheetTrigger } from "./ui/sheet";
 import { useState } from "react";
 import Logo from "./Logo";
 import Link from "next/link";
+import { useAdminAuth } from "@/hooks/use-admin-auth";
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
+  const { isAdmin, isLoading } = useAdminAuth();
+
+  if (isLoading) {
+    return null;
+  }
+
+  if (isAdmin) {
+    return null;
+  }
 
   return (
     <nav className="border-b bg-white">

@@ -10,7 +10,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { toast } from "sonner";
-import { Eye, EyeOff, Shield, Loader2 } from "lucide-react";
+import { Eye, EyeOff, Shield, Loader as Loader2 } from "lucide-react";
 // MOCK DATA IMPORT - TEMPORARY
 import { mockApi } from "@/lib/mockData";
 
@@ -77,16 +77,16 @@ export default function AdminLoginPage() {
     // MOCK LOGIN - TEMPORARY REPLACEMENT
     try {
       const result = await mockApi.login(values);
-      
-      if (result.success) {
+
+      if (result.success && result.data) {
         // Store token in localStorage (same as original)
         localStorage.setItem('adminToken', result.data.token);
         localStorage.setItem('adminUser', JSON.stringify(result.data.user));
-        
+
         toast.success("Login successful!", {
           description: `Welcome back, ${result.data.user.username}!`,
         });
-        
+
         router.push('/admin/dashboard');
       } else {
         toast.error("Login failed", {

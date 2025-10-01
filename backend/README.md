@@ -206,10 +206,14 @@ export default function AdminNoticesPage() {
               Manage notices, events, and tournaments
             </p>
           </div>
-          <Button>
-            <Plus className="h-4 w-4 mr-2" />
-            Add Notice
-          </Button>
+          <Dialog open={isAddModalOpen} onOpenChange={setIsAddModalOpen}>
+            <DialogTrigger asChild>
+              <Button>
+                <Plus className="h-4 w-4 mr-2" />
+                Add Notice
+              </Button>
+            </DialogTrigger>
+          </Dialog>
         </div>
 
         {/* Search */}

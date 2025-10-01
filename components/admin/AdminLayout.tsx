@@ -6,19 +6,8 @@ import Link from 'next/link';
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import {
-  LayoutDashboard,
-  Users,
-  Bell,
-  Image,
-  Trophy,
-  FileText,
-  Menu,
-  LogOut,
-  Shield,
-  User,
-  Info
-} from "lucide-react";
+import { LayoutDashboard, Users, Bell, Image, Trophy, FileText, Menu, LogOut, Shield, User, Info, Chrome as Home } from "lucide-react";
+
 import { getAdminUser, removeAdminAuth, isAuthenticated, AdminUser } from "@/lib/auth";
 import { toast } from "sonner";
 
@@ -28,6 +17,7 @@ interface AdminLayoutProps {
 
 const navigation = [
   { name: 'Dashboard', href: '/admin/dashboard', icon: LayoutDashboard },
+  { name: 'Home', href: '/admin/home', icon: Home },
   { name: 'Members', href: '/admin/members', icon: Users },
   { name: 'Notices', href: '/admin/notices', icon: Bell },
   { name: 'Tournaments', href: '/admin/tournaments', icon: Trophy },

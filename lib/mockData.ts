@@ -393,6 +393,33 @@ Join us on this incredible journey of self-discovery, physical fitness, and mart
   updatedAt: '2024-01-15T10:30:00.000Z'
 };
 
+// Mock Home Slider Content
+let mockHomeSliderContent: MockHomeSliderContent = {
+  _id: 'home-slider-1',
+  title: 'Welcome to Shotokan Karate Bangladesh',
+  subtitle: 'Discover the art of traditional karate with expert instruction and authentic training methods',
+  slides: [
+    {
+      imageUrl: 'https://images.pexels.com/photos/7045693/pexels-photo-7045693.jpeg',
+      altText: 'Karate training session with students practicing kata',
+      order: 0
+    },
+    {
+      imageUrl: 'https://images.pexels.com/photos/7045694/pexels-photo-7045694.jpeg',
+      altText: 'Black belt demonstration at tournament',
+      order: 1
+    },
+    {
+      imageUrl: 'https://images.pexels.com/photos/7045695/pexels-photo-7045695.jpeg',
+      altText: 'Youth karate class learning basic techniques',
+      order: 2
+    }
+  ],
+  isActive: true,
+  createdAt: '2023-01-01T00:00:00.000Z',
+  updatedAt: '2024-01-15T10:30:00.000Z'
+};
+
 // Mock Tournaments Data
 const mockTournaments: Tournament[] = [
   {
@@ -860,6 +887,43 @@ export const mockApi = {
     };
   },
 
+  // Home Slider API
+  async getHomeSliderContent(): Promise<{ success: boolean; data: MockHomeSliderContent }> {
+    await simulateApiDelay(600);
+    
+    return {
+      success: true,
+      data: mockHomeSliderContent
+    };
+  },
+
+  async updateHomeSliderContent(updateData: { 
+    title: string; 
+    subtitle: string; 
+    slides: Array<{ imageUrl: string; altText: string }> 
+  }): Promise<{ success: boolean; message: string; data: MockHomeSliderContent }> {
+    await simulateApiDelay(1200);
+    
+    // Update the mock data
+    mockHomeSliderContent = {
+      ...mockHomeSliderContent,
+      title: updateData.title,
+      subtitle: updateData.subtitle,
+      slides: updateData.slides.map((slide, index) => ({
+        imageUrl: slide.imageUrl,
+        altText: slide.altText,
+        order: index
+      })),
+      updatedAt: new Date().toISOString()
+    };
+    
+    return {
+      success: true,
+      message: 'Home slider updated successfully',
+      data: mockHomeSliderContent
+    };
+  },
+
   // Tournaments API
    
 async getUpcomingTournaments(params?: { 
@@ -1004,7 +1068,7 @@ async getUpcomingTournaments(params?: {
     return { success: true, message: 'Participant removed successfully' };
   },
 
-  async addGalleryImage(imageData: {
+  async addGalleryImage(imageData: { // Changed to accept File object directly
     title: string;
     description?: string;
     altText: string;
@@ -1014,7 +1078,7 @@ async getUpcomingTournaments(params?: {
     await simulateApiDelay(2000);
     
     // Simulate file upload by creating a mock URL
-    const mockImageUrl = `https://images.pexels.com/photos/${Math.floor(Math.random() * 1000000)}/pexels-photo-${Math.floor(Math.random() * 1000000)}.jpeg`;
+    const mockImageUrl = `https://images.pexels.com/photos/${Math.floor(Math.random() * 1000000) + 1000000}/pexels-photo-${Math.floor(Math.random() * 1000000) + 1000000}.jpeg`;
     
     const newImage = {
       _id: (mockGalleryImages.length + 1).toString(),

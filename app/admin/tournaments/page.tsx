@@ -25,17 +25,7 @@ import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { 
-  Search, 
-  Trophy, 
-  Users, 
-  Calendar, 
-  MapPin, 
-  Filter,
-  Eye,
-  AlertCircle,
-  Plus
-} from "lucide-react";
+import { Search, Trophy, Users, Calendar, MapPin, Filter, Eye, CircleAlert as AlertCircle, Plus } from "lucide-react";
 import AdminLayout from "@/components/admin/AdminLayout";
 import { mockApi } from "@/lib/mockData";
 import { Tournament } from "@/types/tournament";

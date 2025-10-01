@@ -1004,7 +1004,7 @@ async getUpcomingTournaments(params?: {
     return { success: true, message: 'Participant removed successfully' };
   },
 
-  async addGalleryImage(imageData: {
+  async addGalleryImage(imageData: { // Changed to accept File object directly
     title: string;
     description?: string;
     altText: string;
@@ -1014,7 +1014,7 @@ async getUpcomingTournaments(params?: {
     await simulateApiDelay(2000);
     
     // Simulate file upload by creating a mock URL
-    const mockImageUrl = `https://images.pexels.com/photos/${Math.floor(Math.random() * 1000000)}/pexels-photo-${Math.floor(Math.random() * 1000000)}.jpeg`;
+    const mockImageUrl = `https://images.pexels.com/photos/${Math.floor(Math.random() * 1000000) + 1000000}/pexels-photo-${Math.floor(Math.random() * 1000000) + 1000000}.jpeg`;
     
     const newImage = {
       _id: (mockGalleryImages.length + 1).toString(),

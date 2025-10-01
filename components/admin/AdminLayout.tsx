@@ -16,7 +16,8 @@ import {
   Menu, 
   LogOut,
   Shield,
-  User
+  User,
+  Home
 } from "lucide-react";
 import { getAdminUser, removeAdminAuth, isAuthenticated, AdminUser } from "@/lib/auth";
 import { toast } from "sonner";

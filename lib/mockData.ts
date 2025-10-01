@@ -393,6 +393,33 @@ Join us on this incredible journey of self-discovery, physical fitness, and mart
   updatedAt: '2024-01-15T10:30:00.000Z'
 };
 
+// Mock Home Slider Content
+let mockHomeSliderContent: MockHomeSliderContent = {
+  _id: 'home-slider-1',
+  title: 'Welcome to Shotokan Karate Bangladesh',
+  subtitle: 'Discover the art of traditional karate with expert instruction and authentic training methods',
+  slides: [
+    {
+      imageUrl: 'https://images.pexels.com/photos/7045693/pexels-photo-7045693.jpeg',
+      altText: 'Karate training session with students practicing kata',
+      order: 0
+    },
+    {
+      imageUrl: 'https://images.pexels.com/photos/7045694/pexels-photo-7045694.jpeg',
+      altText: 'Black belt demonstration at tournament',
+      order: 1
+    },
+    {
+      imageUrl: 'https://images.pexels.com/photos/7045695/pexels-photo-7045695.jpeg',
+      altText: 'Youth karate class learning basic techniques',
+      order: 2
+    }
+  ],
+  isActive: true,
+  createdAt: '2023-01-01T00:00:00.000Z',
+  updatedAt: '2024-01-15T10:30:00.000Z'
+};
+
 // Mock Tournaments Data
 const mockTournaments: Tournament[] = [
   {

@@ -284,21 +284,21 @@ export default function AdminHomePage() {
           </Card>
         ) : (
           /* Edit Mode */
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            {/* Content Form */}
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <HomeIcon className="h-5 w-5" />
-                  Slider Content
-                </CardTitle>
-                <CardDescription>
-                  Edit the main title and subtitle for the home page slider
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <Form {...form}>
-                  <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                {/* Content Form */}
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2">
+                      <HomeIcon className="h-5 w-5" />
+                      Slider Content
+                    </CardTitle>
+                    <CardDescription>
+                      Edit the main title and subtitle for the home page slider
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent className="space-y-6">
                     <FormField
                       control={form.control}
                       name="title"
@@ -335,123 +335,125 @@ export default function AdminHomePage() {
                         </FormItem>
                       )}
                     />
+                  </CardContent>
+                </Card>
 
-                    <Button 
-                      type="submit" 
-                      disabled={isSubmitting}
+                {/* Slides Management */}
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2">
+                      <ImageIcon className="h-5 w-5" />
+                      Slider Images
+                    </CardTitle>
+                    <CardDescription>
+                      Add, remove, and manage slider images
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    {fields.map((field, index) => (
+                      <div key={field.id} className="border rounded-lg p-4 space-y-4">
+                        <div className="flex items-center justify-between">
+                          <h4 className="font-medium">Slide {index + 1}</h4>
+                          <Button
+                            type="button"
+                            variant="destructive"
+                            size="sm"
+                            onClick={() => removeSlide(index)}
+                            disabled={fields.length <= 1}
+                          >
+                            <Trash2 className="h-4 w-4" />
+                          </Button>
+                        </div>
+
+                        <FormField
+                          control={form.control}
+                          name={`slides.${index}.imageUrl`}
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Image URL</FormLabel>
+                              <FormControl>
+                                <Input 
+                                  placeholder="https://example.com/image.jpg"
+                                  {...field}
+                                  disabled={isSubmitting}
+                                />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+
+                        <FormField
+                          control={form.control}
+                          name={`slides.${index}.altText`}
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Alt Text</FormLabel>
+                              <FormControl>
+                                <Input 
+                                  placeholder="Describe the image"
+                                  {...field}
+                                  disabled={isSubmitting}
+                                />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+
+                        {/* Image Preview */}
+                        {form.watch(`slides.${index}.imageUrl`) && (
+                          <div className="relative aspect-video rounded-lg overflow-hidden border">
+                            <Image
+                              src={form.watch(`slides.${index}.imageUrl`)}
+                              alt={form.watch(`slides.${index}.altText`) || 'Preview'}
+                              fill
+                              className="object-cover"
+                              onError={(e) => {
+                                const target = e.target as HTMLImageElement;
+                                target.src = 'https://images.pexels.com/photos/7045693/pexels-photo-7045693.jpeg';
+                              }}
+                            />
+                          </div>
+                        )}
+                      </div>
+                    ))}
+
+                    <Button
+                      type="button"
+                      variant="outline"
+                      onClick={addSlide}
+                      disabled={fields.length >= 10}
                       className="w-full"
                     >
-                      {isSubmitting ? (
-                        <>
-                          <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-                          Updating...
-                        </>
-                      ) : (
-                        <>
-                          <Save className="h-4 w-4 mr-2" />
-                          Update Slider Content
-                        </>
-                      )}
+                      <Plus className="h-4 w-4 mr-2" />
+                      Add Slide {fields.length >= 10 && '(Maximum reached)'}
                     </Button>
-                  </form>
-                </Form>
-              </CardContent>
-            </Card>
+                  </CardContent>
+                </Card>
+              </div>
 
-            {/* Slides Management */}
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <ImageIcon className="h-5 w-5" />
-                  Slider Images
-                </CardTitle>
-                <CardDescription>
-                  Add, remove, and manage slider images
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                {fields.map((field, index) => (
-                  <div key={field.id} className="border rounded-lg p-4 space-y-4">
-                    <div className="flex items-center justify-between">
-                      <h4 className="font-medium">Slide {index + 1}</h4>
-                      <Button
-                        type="button"
-                        variant="destructive"
-                        size="sm"
-                        onClick={() => removeSlide(index)}
-                        disabled={fields.length <= 1}
-                      >
-                        <Trash2 className="h-4 w-4" />
-                      </Button>
-                    </div>
-
-                    <FormField
-                      control={form.control}
-                      name={`slides.${index}.imageUrl`}
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Image URL</FormLabel>
-                          <FormControl>
-                            <Input 
-                              placeholder="https://example.com/image.jpg"
-                              {...field}
-                              disabled={isSubmitting}
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-
-                    <FormField
-                      control={form.control}
-                      name={`slides.${index}.altText`}
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Alt Text</FormLabel>
-                          <FormControl>
-                            <Input 
-                              placeholder="Describe the image"
-                              {...field}
-                              disabled={isSubmitting}
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-
-                    {/* Image Preview */}
-                    {form.watch(`slides.${index}.imageUrl`) && (
-                      <div className="relative aspect-video rounded-lg overflow-hidden border">
-                        <Image
-                          src={form.watch(`slides.${index}.imageUrl`)}
-                          alt={form.watch(`slides.${index}.altText`) || 'Preview'}
-                          fill
-                          className="object-cover"
-                          onError={(e) => {
-                            const target = e.target as HTMLImageElement;
-                            target.src = 'https://images.pexels.com/photos/7045693/pexels-photo-7045693.jpeg';
-                          }}
-                        />
-                      </div>
-                    )}
-                  </div>
-                ))}
-
-                <Button
-                  type="button"
-                  variant="outline"
-                  onClick={addSlide}
-                  disabled={fields.length >= 10}
-                  className="w-full"
+              <div className="flex justify-end">
+                <Button 
+                  type="submit" 
+                  disabled={isSubmitting}
+                  className="w-full lg:w-auto"
                 >
-                  <Plus className="h-4 w-4 mr-2" />
-                  Add Slide {fields.length >= 10 && '(Maximum reached)'}
+                  {isSubmitting ? (
+                    <>
+                      <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                      Updating...
+                    </>
+                  ) : (
+                    <>
+                      <Save className="h-4 w-4 mr-2" />
+                      Update Slider Content
+                    </>
+                  )}
                 </Button>
-              </CardContent>
-            </Card>
-          </div>
+              </div>
+            </form>
+          </Form>
         )}
       </div>
     </AdminLayout>

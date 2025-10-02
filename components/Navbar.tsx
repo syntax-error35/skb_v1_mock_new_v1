@@ -1,6 +1,6 @@
 "use client";
 
-import { Menu } from "lucide-react";
+import { Menu, Shield } from "lucide-react";
 import { Button } from "./ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "./ui/sheet";
 import { useState } from "react";
@@ -13,10 +13,6 @@ export default function Navbar() {
   const { isAdmin, isLoading } = useAdminAuth();
 
   if (isLoading) {
-    return null;
-  }
-
-  if (isAdmin) {
     return null;
   }
 
@@ -42,12 +38,23 @@ export default function Navbar() {
           <Link href="/members" className="hover:text-primary">
             Members
           </Link>
-          <Button asChild variant="outline">
-            <Link href="/admin/login">Login</Link>
-          </Button>
-          <Button asChild>
-            <Link href="/register">Register</Link>
-          </Button>
+          {isAdmin ? (
+            <Button asChild variant="outline">
+              <Link href="/admin/dashboard">
+                <Shield className="h-4 w-4 mr-2" />
+                Go to Admin Panel
+              </Link>
+            </Button>
+          ) : (
+            <>
+              <Button asChild variant="outline">
+                <Link href="/admin/login">Login</Link>
+              </Button>
+              <Button asChild>
+                <Link href="/register">Register</Link>
+              </Button>
+            </>
+          )}
         </div>
 
         {/* Mobile Navigation */}
@@ -74,12 +81,23 @@ export default function Navbar() {
               <Link href="/members" onClick={() => setOpen(false)}>
                 Members
               </Link>
-              <Button asChild variant="outline" onClick={() => setOpen(false)}>
-                <Link href="/admin/login">Login</Link>
-              </Button>
-              <Button asChild onClick={() => setOpen(false)}>
-                <Link href="/register">Register</Link>
-              </Button>
+              {isAdmin ? (
+                <Button asChild variant="outline" onClick={() => setOpen(false)}>
+                  <Link href="/admin/dashboard">
+                    <Shield className="h-4 w-4 mr-2" />
+                    Go to Admin Panel
+                  </Link>
+                </Button>
+              ) : (
+                <>
+                  <Button asChild variant="outline" onClick={() => setOpen(false)}>
+                    <Link href="/admin/login">Login</Link>
+                  </Button>
+                  <Button asChild onClick={() => setOpen(false)}>
+                    <Link href="/register">Register</Link>
+                  </Button>
+                </>
+              )}
             </div>
           </SheetContent>
         </Sheet>

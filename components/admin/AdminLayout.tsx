@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { LayoutDashboard, Users, Bell, Image, Trophy, FileText, Menu, LogOut, Shield, User, Info, Chrome as Home, Globe } from "lucide-react";
+import { LayoutDashboard, Users, Bell, Image, Trophy, FileText, Menu, LogOut, Shield, User, Info, Chrome as Home } from "lucide-react";
 
 import { getAdminUser, removeAdminAuth, isAuthenticated, AdminUser } from "@/lib/auth";
 import { toast } from "sonner";
@@ -87,14 +87,6 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
                   );
                 })}
               </ul>
-              <div className="px-3 pt-4 border-t">
-                <Button variant="outline" size="sm" asChild className="w-full" onClick={() => setSidebarOpen(false)}>
-                  <Link href="/">
-                    <Globe className="h-4 w-4 mr-2" />
-                    View Site
-                  </Link>
-                </Button>
-              </div>
             </nav>
           </div>
         </SheetContent>
@@ -128,14 +120,6 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
                 );
               })}
             </ul>
-            <div className="px-3 pt-4 border-t">
-              <Button variant="outline" size="sm" asChild className="w-full">
-                <Link href="/">
-                  <Globe className="h-4 w-4 mr-2" />
-                  View Site
-                </Link>
-              </Button>
-            </div>
           </nav>
         </div>
       </div>
@@ -159,12 +143,6 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
             </div>
             
             <div className="flex items-center gap-4">
-              <Button variant="ghost" size="sm" asChild className="hidden sm:flex">
-                <Link href="/">
-                  <Globe className="h-4 w-4 mr-2" />
-                  View Site
-                </Link>
-              </Button>
               <div className="flex items-center gap-3">
                 <Avatar className="h-8 w-8">
                   <AvatarFallback>

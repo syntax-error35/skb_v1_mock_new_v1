@@ -321,7 +321,7 @@ const mockGalleryImages: MockGalleryImage[] = [
     _id: '1',
     title: 'National Championship 2023',
     description: 'Highlights from the National Shotokan Championship 2023',
-    imageUrl: 'https://images.pexels.com/photos/7045693/pexels-photo-7045693.jpeg',
+    imageUrl: '/images/mock/gallery/tournament-1.jpg',
     altText: 'Karate tournament action shot',
     category: 'tournament',
     isActive: true,
@@ -332,7 +332,7 @@ const mockGalleryImages: MockGalleryImage[] = [
     _id: '2',
     title: 'Training Session - Kata Practice',
     description: 'Students practicing kata forms during evening training',
-    imageUrl: 'https://images.pexels.com/photos/7045694/pexels-photo-7045694.jpeg',
+    imageUrl: '/images/mock/gallery/training-1.jpg',
     altText: 'Students practicing karate kata',
     category: 'training',
     isActive: true,
@@ -343,7 +343,7 @@ const mockGalleryImages: MockGalleryImage[] = [
     _id: '3',
     title: 'Belt Grading Ceremony',
     description: 'Quarterly belt grading ceremony with new black belts',
-    imageUrl: 'https://images.pexels.com/photos/7045695/pexels-photo-7045695.jpeg',
+    imageUrl: '/images/mock/gallery/grading-1.jpg',
     altText: 'Belt grading ceremony',
     category: 'grading',
     isActive: true,
@@ -354,7 +354,7 @@ const mockGalleryImages: MockGalleryImage[] = [
     _id: '4',
     title: 'Youth Training Program',
     description: 'Young students learning basic techniques',
-    imageUrl: 'https://images.pexels.com/photos/7045696/pexels-photo-7045696.jpeg',
+    imageUrl: '/images/mock/gallery/training-2.jpg',
     altText: 'Youth karate training',
     category: 'training',
     isActive: true,
@@ -365,7 +365,7 @@ const mockGalleryImages: MockGalleryImage[] = [
     _id: '5',
     title: 'Sensei Workshop',
     description: 'Special workshop with visiting Japanese sensei',
-    imageUrl: 'https://images.pexels.com/photos/7045697/pexels-photo-7045697.jpeg',
+    imageUrl: '/images/mock/gallery/event-1.jpg',
     altText: 'Karate workshop with sensei',
     category: 'event',
     isActive: true,
@@ -376,7 +376,7 @@ const mockGalleryImages: MockGalleryImage[] = [
     _id: '6',
     title: 'Dojo Opening Ceremony',
     description: 'Grand opening of our new training facility',
-    imageUrl: 'https://images.pexels.com/photos/7045698/pexels-photo-7045698.jpeg',
+    imageUrl: '/images/mock/gallery/event-2.jpg',
     altText: 'Dojo opening ceremony',
     category: 'event',
     isActive: true,
@@ -398,7 +398,7 @@ At Shotokan Karate Bangladesh, we believe that karate is more than just a martia
 We offer programs for all ages and skill levels, from beginners taking their first steps into the world of karate to advanced practitioners preparing for international competitions. Our training facilities are equipped with modern amenities while maintaining the traditional dojo atmosphere that fosters discipline and respect.
 
 Join us on this incredible journey of self-discovery, physical fitness, and martial arts excellence. Whether you're looking to learn self-defense, improve your fitness, or compete at the highest levels, Shotokan Karate Bangladesh is here to guide you every step of the way.`,
-  bannerImageUrl: 'https://images.pexels.com/photos/7045693/pexels-photo-7045693.jpeg',
+  bannerImageUrl: '/images/mock/banners/about-banner.jpg',
   lastUpdatedBy: {
     username: 'admin'
   },
@@ -414,17 +414,17 @@ let mockHomeSliderContent: MockHomeSliderContent = {
   subtitle: 'Discover the art of traditional karate with expert instruction and authentic training methods',
   slides: [
     {
-      imageUrl: 'https://images.pexels.com/photos/7045693/pexels-photo-7045693.jpeg',
+      imageUrl: '/images/mock/sliders/slide-1.jpg',
       altText: 'Karate training session with students practicing kata',
       order: 0
     },
     {
-      imageUrl: 'https://images.pexels.com/photos/7045694/pexels-photo-7045694.jpeg',
+      imageUrl: '/images/mock/sliders/slide-2.jpg',
       altText: 'Black belt demonstration at tournament',
       order: 1
     },
     {
-      imageUrl: 'https://images.pexels.com/photos/7045695/pexels-photo-7045695.jpeg',
+      imageUrl: '/images/mock/sliders/slide-3.jpg',
       altText: 'Youth karate class learning basic techniques',
       order: 2
     }
